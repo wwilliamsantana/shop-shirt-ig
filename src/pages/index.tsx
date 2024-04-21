@@ -1,20 +1,20 @@
 import { HomeContainer, Product } from '@/styles/pages/home'
-import camisa1 from '@/assets/tshirt1.svg'
 
 import Image from 'next/image'
 
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
-import { GetServerSideProps } from 'next'
+import { GetStaticProps } from 'next'
 import { stripe } from '@/api/stripe'
 import Stripe from 'stripe'
+import Link from 'next/link'
 
 interface ProductsProps {
   products: {
     id: string
     name: string
     imageUrl: string
-    price: number
+    price: string
   }[]
 }
 
@@ -30,21 +30,23 @@ export default function Home({ products }: ProductsProps) {
     <HomeContainer ref={sliderRef} className="keen-slider">
       {products.map((item) => {
         return (
-          <Product key={item.id} className="keen-slider__slide">
-            <Image src={item.imageUrl} width={520} height={480} alt="" />
+          <Link key={item.id} href={`product/${item.id}`}>
+            <Product className="keen-slider__slide" key={item.id}>
+              <Image src={item.imageUrl} width={520} height={480} alt="" />
 
-            <footer>
-              <strong>{item.name}</strong>
-              <span>{item.price}</span>
-            </footer>
-          </Product>
+              <footer>
+                <strong>{item.name}</strong>
+                <span>{item.price}</span>
+              </footer>
+            </Product>
+          </Link>
         )
       })}
     </HomeContainer>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
     expand: ['data.default_price'],
   })
@@ -67,5 +69,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     props: {
       products,
     },
+    revalidate: 60 * 60 * 2, // 2 hour
   }
 }
