@@ -9,23 +9,29 @@ import { stripe } from '@/api/stripe'
 import Stripe from 'stripe'
 import Link from 'next/link'
 import Head from 'next/head'
+import { ShoppingCart } from '@phosphor-icons/react'
+import { useShoppingCart } from 'use-shopping-cart'
 
 interface ProductsProps {
   products: {
     id: string
     name: string
     imageUrl: string
-    price: string
+    price: number
+    currency: string
   }[]
 }
 
 export default function Home({ products }: ProductsProps) {
+  const { addItem, cartDetails } = useShoppingCart()
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
       spacing: 48,
     },
   })
+
+  console.log(cartDetails)
 
   return (
     <>
@@ -36,16 +42,22 @@ export default function Home({ products }: ProductsProps) {
       <HomeContainer ref={sliderRef} className="keen-slider">
         {products.map((item) => {
           return (
-            <Link key={item.id} href={`product/${item.id}`} prefetch={false}>
-              <Product className="keen-slider__slide" key={item.id}>
+            <Product className="keen-slider__slide" key={item.id}>
+              <Link href={`product/${item.id}`} prefetch={false}>
                 <Image src={item.imageUrl} width={520} height={480} alt="" />
+              </Link>
 
-                <footer>
+              <footer>
+                <div>
                   <strong>{item.name}</strong>
                   <span>{item.price}</span>
-                </footer>
-              </Product>
-            </Link>
+                </div>
+
+                <button onClick={() => addItem(item)}>
+                  <ShoppingCart size={20} />
+                </button>
+              </footer>
+            </Product>
           )
         })}
       </HomeContainer>
@@ -58,6 +70,8 @@ export const getStaticProps: GetStaticProps = async () => {
     expand: ['data.default_price'],
   })
 
+  console.log(response.data)
+
   const products = response.data.map((product) => {
     const price = product.default_price as Stripe.Price
 
@@ -69,6 +83,8 @@ export const getStaticProps: GetStaticProps = async () => {
         style: 'currency',
         currency: 'BRL',
       }).format(Number(price.unit_amount) / 100),
+
+      currency: price.currency,
     }
   })
 
