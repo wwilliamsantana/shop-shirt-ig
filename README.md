@@ -1,40 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Loja simples
 
-## Getting Started
+## :computer: Sobre
+- Desafio proposto pela ROCKETSEAT no módulo 4 da Trilha Ignite.
+- Layout de uma loja, consumindo os dados diretamente da Stribe
+- Fiz uma implementação adicional, onde foi incluído um sistema de carrinho de compras que permite adicionar e remover itens selecionados.
 
-First, run the development server:
+### Resolução:
+- Durante a execução desse projeto, ainda estávamos na fase Next 12, o que implicava o uso de SSR (Server-side Rendering) e SSG (Static Site Generation). Ambos os conceitos do Next foram empregados para otimizar o desempenho da aplicação. Contávamos com uma espécie de "servidor" do Next para realizar essas atividades, garantindo uma experiência mais fluida para o usuário. Dentro desse servidor (API), eram realizadas chamadas para recuperar dados do Stripe, garantindo uma integração direta e eficiente entre a loja online e a plataforma de pagamentos.
+- Utilizei o Stitches (CSS in js) e Keen-slider (Carrossel "Slide")
+- Para gerenciar toda a lógica do carrinho de compras para o Stripe, utilizei a biblioteca 'use-shopping-cart'. Ao clicar em comprar, o usuário é redirecionado para o checkout da Stripe, onde pode finalizar a compra do produto. Dependendo do retorno desse checkout, há um redirecionamento específico para a página de sucesso ou de erro, garantindo uma experiência fluída e informativa para o usuário.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ ## :rocket: Techs 
+ 
+ * Next.js
+ * TypeScript
+ * Keen-slider
+ * Stripe
+ * use-shopping-cart
+ * Axios
+ * Vite
+ 
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Projeto
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+<div align="center">
+  <img alt="Layout" src="https://github.com/wwilliamsantana/shopping-Ignite/assets/84254929/35c72c81-163d-49af-8350-3793dcee2b83" width="80%">
+<hr>
+  <img alt="Layout" src="https://github.com/wwilliamsantana/shopping-Ignite/assets/84254929/7d5cc4a6-1b6d-41ed-b683-7710fcf51486" width="80%">
+<hr>
+  <img alt="Layout" src="https://github.com/wwilliamsantana/shopping-Ignite/assets/84254929/755c887f-2236-487b-9ccb-736dce0b670a" width="80%">
+<hr>
+  <img alt="Layout" src="https://github.com/wwilliamsantana/shopping-Ignite/assets/84254929/2093095e-1bab-4021-bd6d-9a202670f9cc" width="80%">
+</div>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+<hr>
+<hr>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Implementação extra. Onde foi realizado mudanças no layout do projeto.
 
-## Learn More
+<div align="center">
+  <img alt="Layout" src="https://github.com/wwilliamsantana/shop-shirt-ig/assets/84254929/a181b6e3-d28c-4140-86ad-5228a12a6f86" width="80%">
+<hr>
+  <img alt="Layout" src="https://github.com/wwilliamsantana/shop-shirt-ig/assets/84254929/b70420d8-b364-4cef-9c84-a4f31fb361e5" width="80%">
+</div>
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
