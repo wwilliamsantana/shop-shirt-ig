@@ -23,15 +23,13 @@ interface ProductsProps {
 }
 
 export default function Home({ products }: ProductsProps) {
-  const { addItem, cartDetails } = useShoppingCart()
+  const { addItem } = useShoppingCart()
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
       spacing: 48,
     },
   })
-
-  console.log(cartDetails)
 
   return (
     <>
@@ -69,8 +67,6 @@ export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
     expand: ['data.default_price'],
   })
-
-  console.log(response.data)
 
   const products = response.data.map((product) => {
     const price = product.default_price as Stripe.Price

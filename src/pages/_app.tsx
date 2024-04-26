@@ -3,7 +3,7 @@ import { Container, Header } from '@/styles/pages/app'
 import type { AppProps } from 'next/app'
 import Image from 'next/image'
 import logo from '@/assets/logoIg.svg'
-import { CartProvider, useShoppingCart } from 'use-shopping-cart'
+import { CartProvider } from 'use-shopping-cart'
 import { ShoppingCart } from '@phosphor-icons/react'
 import Link from 'next/link'
 
@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
         cartMode="checkout-session"
         stripe={String(process.env.PUBLIC_API_KEY)}
         currency="BRL"
-        shouldPersist={false}
+        shouldPersist
       >
         <Header>
           <Link href={'/'}>

@@ -11,7 +11,7 @@ import Image from 'next/image'
 import { X } from '@phosphor-icons/react'
 import { useKeenSlider } from 'keen-slider/react'
 import 'keen-slider/keen-slider.min.css'
-import axios from 'axios'
+
 import { useShoppingCart } from 'use-shopping-cart'
 import { useState } from 'react'
 
@@ -25,12 +25,10 @@ export default function Cart() {
     },
   })
 
-  console.log(cartDetails)
-
   async function handleBuy() {
     try {
       setIsCheckoutDisabled(true)
-      console.log(cartDetails)
+
       // const response = await axios.post('/api/checkout', {
       //   priceId: product.defaultPriceId,
       // })
@@ -43,59 +41,76 @@ export default function Cart() {
       alert('Falha ao redirecionar!')
     }
   }
+
+  const arrayAmountTransform = Object.values(cartDetails ?? {}).map((item) =>
+    Number(
+      item.price.toLocaleString().replace('R$', '').replace(',', '.').trim(),
+    ),
+  )
+
+  const amount = arrayAmountTransform
+    .reduce((total, i) => {
+      return total + i
+    }, 0)
+    .toLocaleString('pt-BR', { currency: 'BRL', style: 'currency' })
+
+  const blockButtonBuy = Object.values(cartDetails ?? {}).length === 0
+
   return (
     <CartContainer>
-      <h1>Carrinho</h1>
+      {Object.values(cartDetails ?? {}).length === 0 ? (
+        <h1>Carrinho vazio!</h1>
+      ) : (
+        <h1>Carrinho</h1>
+      )}
 
       <CartWrapper ref={sliderRef} className="keen-slider">
-        {/* {Array(cartDetails).map((item) => {
-          return (
-            <CartItem key={item.} className="keen-slider__slide">
-              <ImageContainer>
-                <Image src={camisa} width={128} height={180} alt="" />
-              </ImageContainer>
+        {cartDetails ? (
+          Object.values(cartDetails ?? {}).map((product) => {
+            return (
+              <CartItem key={product.id} className="keen-slider__slide">
+                <ImageContainer>
+                  <Image
+                    src={product.imageUrl}
+                    width={128}
+                    height={180}
+                    alt=""
+                  />
+                  <span>{product.quantity}</span>
+                </ImageContainer>
 
-              <InfoContainer>
-                <div>
-                  <span>Camisa X</span>
-                  <strong>R$ 79.90</strong>
-                </div>
-                <button>
-                  <X />
-                </button>
-              </InfoContainer>
-            </CartItem>
-          )
-        })} */}
-        <CartItem className="keen-slider__slide">
-          <ImageContainer>
-            <Image src={camisa} width={128} height={180} alt="" />
-          </ImageContainer>
-
-          <InfoContainer>
-            <div>
-              <span>Camisa X</span>
-              <strong>R$ 79.90</strong>
-            </div>
-            <button>
-              <X />
-            </button>
-          </InfoContainer>
-        </CartItem>
+                <InfoCart>
+                  <div>
+                    <span>{product.name}</span>
+                    <strong>{product.price}</strong>
+                  </div>
+                  <button onClick={() => removeItem(product.id)}>
+                    <X />
+                  </button>
+                </InfoCart>
+              </CartItem>
+            )
+          })
+        ) : (
+          <strong>loading....</strong>
+        )}
       </CartWrapper>
 
-      <InfoCart>
+      <InfoContainer>
         <div>
           <span>
             Total:
-            <strong> R$ 100,00</strong>
+            <strong>{amount}</strong>
           </span>
         </div>
 
-        <button onClick={handleBuy} disabled={isCheckoutDisabled}>
+        <button
+          onClick={handleBuy}
+          disabled={isCheckoutDisabled || blockButtonBuy}
+        >
           Comprar agora
         </button>
-      </InfoCart>
+      </InfoContainer>
     </CartContainer>
   )
 }

@@ -10,14 +10,18 @@ export const CartContainer = styled('main', {
 
   h1: {
     fontSize: '$2xl',
+    color: '$gray300',
+    letterSpacing: 1.6,
   },
 })
 
-export const CartWrapper = styled('main', {})
+export const CartWrapper = styled('main', {
+  display: 'grid',
+  gap: '2rem',
+})
 
 export const CartItem = styled('div', {
   maxWidth: 154,
-  height: 270,
 })
 
 export const ImageContainer = styled('div', {
@@ -28,6 +32,7 @@ export const ImageContainer = styled('div', {
   borderRadius: 8,
   padding: '0.25rem',
   marginTop: '4rem',
+  position: 'relative',
 
   display: 'flex',
   justifyContent: 'center',
@@ -36,9 +41,18 @@ export const ImageContainer = styled('div', {
   img: {
     objectFit: 'cover',
   },
+
+  span: {
+    position: 'absolute',
+    top: -10,
+    right: 0,
+    padding: '0.5rem 0.625rem',
+    backgroundColor: '$purple700',
+    borderRadius: 9999,
+  },
 })
 
-export const InfoContainer = styled('div', {
+export const InfoCart = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -61,7 +75,7 @@ export const InfoContainer = styled('div', {
   },
 })
 
-export const InfoCart = styled('footer', {
+export const InfoContainer = styled('footer', {
   display: 'flex',
   flexDirection: 'column',
   gap: '0.5rem',
@@ -86,7 +100,12 @@ export const InfoCart = styled('footer', {
     fontWeight: 'bold',
     cursor: 'pointer',
 
-    '&:hover': {
+    '&:disabled': {
+      opacity: '0.6',
+      cursor: 'not-allowed',
+    },
+
+    '&:not(:disabled):hover': {
       backgroundColor: '$green300',
     },
   },
